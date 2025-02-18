@@ -1,0 +1,12 @@
+{
+	"manifest_version": 3,
+	"name": "Translation Search Plugin",
+	"version": "0.1",
+	"description": "Search Wiktionary or translate with DeepL via right-click.",
+	"permissions": ["contextMenus", "storage"],
+	"options_page": "options.html",
+	"background": {
+		"service_worker": "background.js"
+	},
+	"host_permissions": ["https://en.wiktionary.org/*", "https://www.deepl.com/*"]
+}
