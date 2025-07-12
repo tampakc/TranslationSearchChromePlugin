@@ -1,7 +1,7 @@
 function createContextMenus() {
 	chrome.contextMenus.removeAll(() => {
 		chrome.storage.sync.get(
-			["wiktionaryEnabled", "deeplEnabled", "sourceLanguage", "targetLanguage"],
+			["wiktionaryEnabled", "deeplEnabled", "deeplConfigurations"],
 			(data) => {
 				if (data.wiktionaryEnabled ?? true) {
 					chrome.contextMenus.create({
@@ -11,13 +11,15 @@ function createContextMenus() {
 					});
 				}
 				if (data.deeplEnabled ?? true) {
-					const sourceLang = data.sourceLanguage || "de";
-					const targetLang = data.targetLanguage || "en";
+					const deeplConfigurations = data.deeplConfigurations || [];
 
-					chrome.contextMenus.create({
-						id: "deeplTranslate",
-						title: `Translate with DeepL (${sourceLang.toUpperCase()} → ${targetLang.toUpperCase()})`,
-						contexts: ["selection"],
+					console.log(deeplConfigurations);
+					deeplConfigurations.forEach((pair) => {
+						chrome.contextMenus.create({
+							id: `deeplTranslate-${pair.source}-${pair.target}`,
+							title: `Translate with DeepL (${pair.source.toUpperCase()} → ${pair.target.toUpperCase()})`,
+							contexts: ["selection"],
+						});
 					});
 				}
 			}
